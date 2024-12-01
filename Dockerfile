@@ -13,6 +13,8 @@ FROM alpine:latest
 
 WORKDIR /root/
 
+COPY .env.example /root/.env
+
 COPY GeoLite2-City.mmdb /app/GeoLite2-City.mmdb
 
 WORKDIR /app
