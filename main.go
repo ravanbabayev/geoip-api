@@ -5,7 +5,9 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/oschwald/geoip2-golang"
 )
 
@@ -18,6 +20,17 @@ type GeoIPResponse struct {
 }
 
 func main() {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
 	db, err := geoip2.Open("GeoLite2-City.mmdb")
 	if err != nil {
 		log.Fatal("Failed to open MMDB file:", err)
@@ -55,6 +68,6 @@ func main() {
 		json.NewEncoder(w).Encode(response)
 	})
 
-	log.Println("GeoIP API server running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Printf("GeoIP API server running on http://localhost:%s", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
