@@ -11,6 +11,7 @@ import (
 
 type GeoIPResponse struct {
 	Country string  `json:"country"`
+	ISOCode string  `json:"iso_code"`
 	City    string  `json:"city"`
 	Lat     float64 `json:"latitude"`
 	Lon     float64 `json:"longitude"`
@@ -44,6 +45,7 @@ func main() {
 
 		response := GeoIPResponse{
 			Country: record.Country.Names["en"],
+			ISOCode: record.Country.IsoCode,
 			City:    record.City.Names["en"],
 			Lat:     record.Location.Latitude,
 			Lon:     record.Location.Longitude,
